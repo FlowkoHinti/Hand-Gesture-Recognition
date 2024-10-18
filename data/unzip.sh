@@ -9,7 +9,7 @@
 #SBATCH --mem-per-cpu=4G                                    # Memory per CPU allocated
 #SBATCH --cpus-per-task=2                                 # CPU cores requested per task
 
-
+cd /srv/GadM/Datasets/Tmp/Hand-Gesture-Recognition/data
 unzip hagridv2_512.zip
 unzip annotations.zip
 
