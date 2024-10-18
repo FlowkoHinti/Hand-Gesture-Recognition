@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --job-name=download_image                            # Job name
+#SBATCH --job-name=unzip_image                            # Job name
 #SBATCH --output=Log/%x_%j.out                                  # Output file (includes job name and ID)
 #SBATCH --error=Log/%x_%j.err                                   # Error file (includes job name and ID)
 #SBATCH --gres=gpu:1                                        # Number of GPUs
@@ -10,7 +10,7 @@
 #SBATCH --cpus-per-task=1                                 # CPU cores requested per task
 
 
-wget https://rndml-team-cv.obs.ru-moscow-1.hc.sbercloud.ru/datasets/hagrid_v2/hagridv2_512.zip
-wget https://rndml-team-cv.obs.ru-moscow-1.hc.sbercloud.ru/datasets/hagrid_v2/annotations_with_landmarks/annotations.zip
+unzip hagridv2_512.zip
+unzip annotations
 
 exit

@@ -170,4 +170,5 @@ cython_debug/
 *.npy
 *.nii.gz
 
-.vscode
+*.vscode
+*.json
