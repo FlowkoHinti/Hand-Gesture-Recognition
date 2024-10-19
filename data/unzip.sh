@@ -9,8 +9,18 @@
 #SBATCH --mem-per-cpu=4G                                    # Memory per CPU allocated
 #SBATCH --cpus-per-task=2                                 # CPU cores requested per task
 
-cd /srv/GadM/Datasets/Tmp/Hand-Gesture-Recognition/data
-unzip hagridv2_512.zip
-unzip annotations.zip
+cd /srv/GadM/Datasets/Tmp/Hand-Gesture-Recognition/data || { echo "Directory not found!"; exit 1; }
 
-exit
+if [ -f "hagridv2_512.zip" ]; then
+    unzip hagridv2_512.zip || { echo "Failed to unzip hagridv2_512.zip"; exit 1; }
+else
+    echo "hagridv2_512.zip not found!"
+fi
+
+if [ -f "annotations.zip" ]; then
+    unzip annotations.zip || { echo "Failed to unzip annotations.zip"; exit 1; }
+else
+    echo "annotations.zip not found!"
+fi
+
+exit 0
