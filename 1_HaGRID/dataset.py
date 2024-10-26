@@ -209,7 +209,7 @@ class DetectionDataset(HagridDataset):
         image = np.array(image)
         if self.transform is not None:
             transformed_target = self.transform(image=image, bboxes=target["boxes"], class_labels=target["labels"])
-            image = transformed_target["image"] / 255.0
+            image = transformed_target["image"] #/ 255.0
             target["boxes"] = torch.tensor(transformed_target["bboxes"], dtype=torch.float32)
             target["labels"] = torch.tensor(transformed_target["class_labels"])
 
