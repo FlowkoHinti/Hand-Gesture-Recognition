@@ -103,7 +103,7 @@ class HagridDataset(Dataset):
                 json_annotation = [
                     {**annotation, "name": f"{name}.jpg"} for name, annotation in json_annotation.items()
                 ]
-                if subset > 1:
+                if subset is not None and subset > 1:
                     json_annotation = json_annotation[:subset]
 
                 annotation = pd.DataFrame(json_annotation)

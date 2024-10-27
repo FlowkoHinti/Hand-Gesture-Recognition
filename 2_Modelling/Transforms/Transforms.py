@@ -12,9 +12,15 @@ class CropToBBox:
         # Crop the image using the bounding box
         cropped_image = image[y_min:y_max, x_min:x_max]
 
+        # To PIL Image (required for torchvision transforms)
+        cropped_image = v2.ToImage()(cropped_image)
+
+        # scale the image to 224x224
+        cropped_image = v2.Resize((224, 224))(cropped_image)
+
         transformed_target = {}
         transformed_target["image"] = cropped_image
-        transformed_target["bboxes"] = bboxes
-        transformed_target["class_labels"] = class_labels
+        transformed_target["bboxes"] = bboxes[0]                #only the first bounding box
+        transformed_target["class_labels"] = class_labels[0]    #only the first class label
 
         return transformed_target
