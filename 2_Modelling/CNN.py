@@ -283,7 +283,7 @@ def main(args):
         "dataset": {
             "targets": constants.targets,
             "annotations_test": "./../Data/test",
-            "dataset_test": "./../Data/data",
+            "dataset_test": "./../Data/Data",
             "subset": None,
             "one_class": True,
         }

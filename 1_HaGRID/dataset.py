@@ -8,6 +8,7 @@ import pandas as pd
 import torch
 from omegaconf import DictConfig
 from PIL import Image
+from torch import Tensor
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
@@ -277,3 +278,23 @@ class ClassificationDataset(HagridDataset):
             image = self.transform(image=image)["image"]
 
         return image, label
+
+
+
+class BBoxClassificationDataset(DetectionDataset):
+    def __init__(self, conf: DictConfig, dataset_type: str, transform):
+        """
+        Parameters
+        ----------
+        conf : DictConfig
+            Config for dataset
+        dataset_type : str
+            Type of dataset
+        transform : albumentations.Compose
+            Transformations for dataset
+        """
+        super().__init__(conf, dataset_type, transform)
+
+    def __getitem__(self, index: int) -> Tuple[Image.Image, Tensor]:
+        image, target = super().__getitem__(index)
+        return image, target["labels"]
