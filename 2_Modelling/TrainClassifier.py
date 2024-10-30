@@ -178,7 +178,7 @@ if __name__ == "__main__":
             "dataset_train": str(data_dir / "HaGRIDv2_dataset_512"),
             "dataset_val": str(data_dir / "HaGRIDv2_dataset_512"),
             "dataset_test": str(data_dir / "HaGRIDv2_dataset_512"),
-            "subset": None,
+            "subset": 1000,
             "one_class": True,
         }
     }
