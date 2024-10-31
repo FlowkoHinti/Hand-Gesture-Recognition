@@ -11,7 +11,7 @@
 
 
 eval "$(conda shell.bash hook)"
-conda activate /home2/jschoenberg/miniconda/envs/hagrid/
+conda activate /home2/phofmann/miniconda/envs/hagrid/
 
 
 cd /srv/GadM/Datasets/Tmp/Hand-Gesture-Recognition/2_Modelling/
