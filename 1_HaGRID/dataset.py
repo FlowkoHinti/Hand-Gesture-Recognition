@@ -12,7 +12,7 @@ from torch import Tensor
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
-from constants import IMAGES
+from constants import IMAGES, targets
 
 
 class HagridDataset(Dataset):
@@ -38,7 +38,7 @@ class HagridDataset(Dataset):
 
         self.dataset_type = dataset_type
 
-        subset = self.conf.dataset.get("subset", None) if dataset_type == "train" else -1
+        subset = self.conf.dataset.get("subset", None) if dataset_type == "train" or "val" else -1
 
         self.path_to_json = os.path.expanduser(self.conf.dataset.get(f"annotations_{dataset_type}"))
         self.path_to_dataset = os.path.expanduser(self.conf.dataset.get(f"dataset_{dataset_type}"))
@@ -213,9 +213,6 @@ class DetectionDataset(HagridDataset):
             image = transformed_target["image"] #/ 255.0
             target["boxes"] = torch.tensor(transformed_target["bboxes"], dtype=torch.float32)
             target["labels"] = torch.tensor(transformed_target["class_labels"])
-
-        if self.one_class:
-            target["labels"] = torch.ones_like(target["labels"])
 
         return image, target
 
