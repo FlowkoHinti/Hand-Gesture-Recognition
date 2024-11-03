@@ -49,10 +49,11 @@ parser.add_argument('--epochs', type=int, default=10, help="Number of epochs for
 parser.add_argument('--patience', type=int, default=3, help="Patience for early stopping")
 parser.add_argument('--model', choices=['resnet34', 'vit'], default='resnet34', help="Model type to train")
 parser.add_argument('--setup', choices=['frozen', 'unfrozen'], default='frozen', help="Training setup")
-parser.add_argument('--overwrite', action='store_true', help="Overwrite existing model files")
 parser.add_argument('--subset', type=int, default=-1, help="Number of samples to use for training/val/test")
 
 args = parser.parse_args()
+
+
 
 # Load Dataset
 def get_dataloaders(conf, batch_size, transforms, num_workers=2):
@@ -76,6 +77,11 @@ def get_model(model_type, setup, num_classes):
         model = create_model("vit_base_patch16_224", pretrained=True)
         model.head = nn.Linear(model.head.in_features, num_classes)
 
+    # If model already exists, load it
+    if (model_dir / f"{model_type}_{setup}_best.pth").exists():
+        logger.info("Loading existing model...")
+        model.load_state_dict(torch.load(model_dir / f"{model_type}_{setup}_best.pth", weights_only=True))
+
     if setup == 'frozen':
         for param in model.parameters():
             param.requires_grad = False
@@ -97,7 +103,6 @@ def save_loss_curve(learn, model_type, setup):
 def train_model(conf, model_type, setup, epochs, batch_size, learning_rate, patience):
     num_classes = len(constants.targets)
     model = get_model(model_type, setup, num_classes)
-
     transforms = Transforms.CropToBBox()
     dataloaders = get_dataloaders(conf, batch_size, transforms)
     train_dl, val_dl = dataloaders
@@ -111,7 +116,8 @@ def train_model(conf, model_type, setup, epochs, batch_size, learning_rate, pati
         cbs=[
             ProgressCallback(),
             CSVLogger(fname=stats_dir / f"{model_type}_{setup}_training_logs.csv", append=False),
-            EarlyStoppingCallback(monitor='valid_loss', patience=patience)
+            EarlyStoppingCallback(monitor='valid_loss', patience=patience),
+            SaveModelCallback(monitor='valid_loss', fname=model_dir / f"{model_type}_{setup}_best")
         ]
     )
 
@@ -126,11 +132,7 @@ def train_model(conf, model_type, setup, epochs, batch_size, learning_rate, pati
     with learn.no_bar():
         learn.fit_one_cycle(epochs, learning_rate)
 
-    model_filename = model_dir / f"{model_type}_{setup}"
-    if args.overwrite or not model_filename.exists():
-        learn.save(model_filename)
-        logger.info(f"Model saved at {model_filename}")
-
+    # Save the loss curve for tracking progress
     save_loss_curve(learn, model_type, setup)
     logger.info("Training complete.")
     return learn
