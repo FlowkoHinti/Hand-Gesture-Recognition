@@ -115,7 +115,7 @@ def train_model(conf, model_type, setup, epochs, batch_size, learning_rate, pati
         metrics=[accuracy],
         cbs=[
             ProgressCallback(),
-            CSVLogger(fname=stats_dir / f"{model_type}_{setup}_training_logs.csv", append=False),
+            CSVLogger(fname=stats_dir / f"{model_type}_{setup}_training_logs.csv", append=True),
             EarlyStoppingCallback(monitor='valid_loss', patience=patience),
             SaveModelCallback(monitor='valid_loss', fname=model_dir / f"{model_type}_{setup}_best")
         ]

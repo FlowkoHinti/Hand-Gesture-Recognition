@@ -16,6 +16,6 @@ conda activate /home2/phofmann/miniconda/envs/hagrid/
 
 cd /srv/GadM/Datasets/Tmp/Hand-Gesture-Recognition/2_Modelling/
 
-python TrainClassifier.py --model=vit --setup=unfrozen --subset=10000 --epochs=20 --batch_size=64 --learning_rate=0.001 --patience=3
+python TrainClassifier.py --model=vit --setup=unfrozen --subset=10000 --epochs=1 --batch_size=64 --learning_rate=0.001 --patience=1
 
 exit
