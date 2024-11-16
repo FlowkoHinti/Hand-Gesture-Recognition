@@ -29,7 +29,6 @@ class CropToBBox:
         transformed_target["bboxes"] = bboxes[0]                #only the first bounding box
         transformed_target["class_labels"] = class_labels[0]    #only the first class label
 
-        # Add Resnet/Vit Transforms
 
         return transformed_target
     
