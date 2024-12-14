@@ -35,6 +35,6 @@ two_up_inverted       0.83      0.81      0.82      4582
    thumb_index2       0.73      0.68      0.70      5000
      no_gesture       0.87      0.91      0.89     12567
 
-       accuracy                           0.84    165500
-      macro avg       0.84      0.84      0.84    165500
-   weighted avg       0.84      0.84      0.84    165500
+       accuracy        NaN       NaN      0.84    165500
+      macro_avg       0.84      0.84      0.84    165500
+   weighted_avg       0.84      0.84      0.84    165500
